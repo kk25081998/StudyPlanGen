@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px); /* assuming 100px as the height of your nav */
+        }
+        .register-box {
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            background-color: #f1f5f9;
+        }
+        .register-box h2 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        .register-box form div {
+            margin-bottom: 10px;
+        }
+        .register-box form div:last-child {
+            text-align: center;
+        }
+        .flash-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+    <div class="register-container">
+        <div class="register-box">
+            <h2>Register</h2>
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}
+                    {% if form.username.errors %}
+                        <ul class="errors">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}
+                    {% if form.email.errors %}
+                        <ul class="errors">
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}
+                    {% if form.password.errors %}
+                        <ul class="errors">
+                            {% for error in form.password.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.password_confirm.label }}<br>
+                    {{ form.password_confirm(size=32) }}
+                    {% if form.password_confirm.errors %}
+                        <ul class="errors">
+                            {% for error in form.password_confirm.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

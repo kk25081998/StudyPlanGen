@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 30px;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .text-danger {
+            color: red;
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #1a5276;
+        }
+    </style>
+    <div class="form-container">
+        <h1>Create Learning Path</h1>
+        <form method="POST" action="/create_learning_path">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="{{ form.title.id }}" class="form-label">{{ form.title.label }}</label>
+                {{ form.title(class="form-control") }}
+                {% for error in form.title.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.topic_of_study.id }}" class="form-label">{{ form.topic_of_study.label }}</label>
+                {{ form.topic_of_study(class="form-control") }}
+                {% for error in form.topic_of_study.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.current_skill_level.id }}" class="form-label">{{ form.current_skill_level.label }}</label>
+                {{ form.current_skill_level(class="form-control") }}
+                {% for error in form.current_skill_level.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.target_skill_level.id }}" class="form-label">{{ form.target_skill_level.label }}</label>
+                {{ form.target_skill_level(class="form-control") }}
+                {% for error in form.target_skill_level.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.time_frame.id }}" class="form-label">{{ form.time_frame.label }}</label>
+                {{ form.time_frame(class="form-control") }}
+                {% for error in form.time_frame.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+           

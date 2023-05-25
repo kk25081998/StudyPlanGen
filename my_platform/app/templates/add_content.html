@@ -1,0 +1,14 @@
+<!-- app/templates/add_content.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Content</h2>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title(size=32) }}<br>
+    {{ form.source.label }} {{ form.source(size=32) }}<br>
+    {{ form.content_type.label }} {{ form.content_type }}<br>
+    {{ form.difficulty.label }} {{ form.difficulty }}<br>
+    {{ form.submit() }}
+</form>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .content-heading {
+            text-align: center;
+            color: #3498db;
+            margin-top: 20px;
+        }
+        .learning-paths {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        .learning-path-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            background-color: #f1f5f9;
+            transition: transform 0.3s;
+            max-width: 300px;
+        }
+        .learning-path-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .learning-path-item h3 {
+            margin-bottom: 10px;
+        }
+        .learning-path-item p {
+            margin: 5px 0;
+        }
+        .learning-path-item a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+    <h2 class="content-heading">My Learning Plans</h2>
+    <ul class="learning-paths">
+    {% for path in paths %}
+        <li class="learning-path-item">
+            <h3>{{ path.title }}</h3>
+            <p>Topic: {{ path.topic_of_study }}</p>
+            <p>Duration: {{ path.time_frame }} weeks</p>
+            <a href="{{ url_for('main.view_learning_path', path_id=path.id) }}">View Learning Path</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

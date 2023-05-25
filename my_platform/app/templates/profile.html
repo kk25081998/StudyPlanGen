@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .card {
+        background-color: #f1f5f9;
+        border-radius: 10px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 500px; /* adjust as needed */
+    }
+    .card h2 {
+        text-align: center;
+    }
+    .card label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .card-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+    }
+    .card-input:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+    .card button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+    .card button:hover {
+        background-color: #1a5276;
+    }
+    .text-danger {
+        color: red;
+        font-size: 0.8em; /* adjust as needed */
+    }
+</style>
+
+<div class="card">
+    <h2>User Profile</h2>
+    <form method="post">
+        {{ form.csrf_token }}
+        <div>
+            <label for="{{ form.username.id }}">Username</label>
+            {{ form.username(class="card-input") }}
+            {% for error in form.username.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="{{ form.email.id }}">Email</label>
+            {{ form.email(class="card-input") }}
+            {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px);
+            text-align: center;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .welcome-container h1 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .welcome-container p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 1.2em;
+        }
+        .welcome-container p a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .welcome-container p a:hover {
+            color: #f1f5f9;
+            background-color: #3498db;
+        }
+    </style>
+    <div class="welcome-container">
+        <h1>Welcome to InfiniLearn AI</h1>
+        <p>
+            InfiniLearn AI is your guide to curated, top-tier content from across the internet. With the power of AI, we create a personalized learning plan for you to master any skill you desire.
+        </p>
+        <p>
+            Ready to start learning? 
+            <a href="{{ url_for('main.login') }}">Login</a> or 
+            <a href="{{ url_for('main.register') }}">Register</a>
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+<!-- app/templates/personalized_learning_path.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ learning_path.title }}</h2>
+<ul>
+{% for content in learning_path.contents %}
+    <li>{{ content.title }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

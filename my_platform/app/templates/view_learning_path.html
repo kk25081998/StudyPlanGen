@@ -1,0 +1,140 @@
+<!-- app/templates/view_learning_path.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .learning-path-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #3498db;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        background-color: #f1f5f9;
+        transition: transform 0.3s;
+        max-width: 300px;
+        margin: 20px auto; 
+    }
+    .learning-path-item h2, .learning-path-item h3 {
+        margin-bottom: 10px;
+    }
+    .learning-path-item p {
+        margin: 5px 0;
+    }
+    .study-plan {
+        margin: 20px;  /* add margin around the study plan */
+    }
+</style>
+
+<div class="learning-path-item">
+    <h2>{{ path.title }}</h2>
+    <p>Topic of Study: {{ path.topic_of_study }}</p>
+    <p>Current Skill Level: {{ path.current_skill_level }}</p>
+    <p>Target Skill Level: {{ path.target_skill_level }}</p>
+    <p>Time Frame: {{ path.time_frame }} weeks</p>
+</div>
+
+<div class="study-plan">
+    <h3>Study Plan:</h3>
+    {{ path.contents|safe }}
+</div>
+
+<script>
+window.onload = function() {
+    var path_id = window.location.pathname.split("/")[2];
+    var user_id;
+    fetch('/get_user_id')
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        user_id = data.user_id;
+
+        // Fetch the progress data
+        fetch('/get_progress?user_id=' + user_id + '&path_id=' + path_id)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            // Apply the progress data to the checkboxes
+            var checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+            for (var week_number in data) {
+                for (var task_id in data[week_number]) {
+                    var isChecked = data[week_number][task_id].checked;
+                    // Update the checkbox state
+                    var checkbox = document.querySelector('div[data-week="' + week_number + '"] input[data-task="' + task_id + '"]');
+                    if (checkbox) {
+                        checkbox.checked = isChecked;
+                    }
+                }
+            }
+
+            // Calculate and display the initial progress
+            var totalTasks = checkboxes.length;
+            var completedTasks = checkboxes.filter(cb => cb.checked).length;
+            var progress = Math.round((completedTasks / totalTasks) * 100);
+            document.getElementById('progress').textContent = `Progress: ${progress}%`;
+        })
+        .catch(function(error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+    });
+
+    document.getElementById('save-progress').addEventListener('click', function() {
+        var progressData = {};
+        var checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+        var weekCount = 0;
+        checkboxes.forEach(function(cb, index) {
+            if(index == 0 || checkboxes[index-1].closest('div').parentNode != cb.closest('div').parentNode){
+                weekCount++;
+            }
+            var taskId = Array.from(cb.closest('div').parentNode.querySelectorAll('input[type="checkbox"]')).indexOf(cb) + 1;
+            var isChecked = cb.checked;
+
+            // Update the progressData dictionary
+            if (!progressData[String(weekCount)]) {
+                progressData[String(weekCount)] = {};
+            }
+            progressData[String(weekCount)][String(taskId)] = {
+                checked: isChecked
+            };
+        });
+        console.log('user_id:', user_id); // Debugging
+        fetch('/update_progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: user_id,
+                progress_data: progressData,
+                path_id: path_id
+            })
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+        document.getElementById('progress').textContent = `Progress: ${data.progress}%`;
+    })
+    .catch(function(error) {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+});
+};
+
+</script>
+
+<p id="progress">Progress: 0%</p>
+<button id="save-progress">Save Progress</button>
+{% endblock %}

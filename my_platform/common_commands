@@ -1,0 +1,20 @@
+Configure database before starting the app:
+
+1. remove any existing databases: 
+```rm app.db```
+2. open python terminal: 
+```python3```
+3. copy/paste this command in python terminal to create the db:
+```from app import create_app, db
+app = create_app()
+with app.app_context():
+    db.create_all()```
+
+
+start celery:
+celery -A celery_worker.celery worker --loglevel=info
+
+
+start flask app:
+python3 run.py
+

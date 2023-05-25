@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .dashboard-container h1 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 20px; /* Added padding to the left and right */
+        }
+        .dashboard-container p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .dashboard-container ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .dashboard-container li {
+            margin-bottom: 10px;
+        }
+        .dashboard-container li a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .dashboard-container li a:hover {
+            color: #1a5276;
+        }
+    </style>
+    <div class="dashboard-container">
+        <h1>Welcome to the Dashboard</h1>
+        <p>Your personalized learning dashboard is here to help you excel in your learning journey.</p>
+        <p>Explore your learning plans to enhance your skills and achieve your goals.</p>
+    </div>
+{% endblock %}
